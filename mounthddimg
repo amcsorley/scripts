@@ -1,0 +1,7 @@
+
+img=$1
+mountpoint="/mnt/tmp"
+units=`/sbin/fdisk -lu $img |grep '^Units'|cut -d'=' -f2|cut -d'*' -f2`
+startsector=`/sbin/fdisk -lu $img |grep -v bytes|grep $img|tr -s ' '|cut -d' ' -f3`
+mount -o loop,offset=$(($startsector * $units)) $img $mountpoint
+
