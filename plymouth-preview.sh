@@ -1,9 +1,14 @@
 #!/bin/bash  
 
-DURATION=$1
-if [ $# -ne 1 ]; then
-     DURATION=5
+duration=$1
+theme=$2
+if [ $# -ne 2 ]; then
+    echo -e "\nneed seconds and theme name"
+    echo -e "example: $0 10 en\n"
+    exit
 fi
+
+sed -i "s/^Theme=.*/Theme=$2/" /usr/share/plymouth/plymouthd.defaults
 
 debugfile=/root/plymouthdebug.out.$(date +"%Y%m%d%H%M")
 cmdline="quiet splash"
@@ -12,7 +17,7 @@ cmdline="quiet splash"
 
 plymouth --show-splash
 
-for ((I=0; I<$DURATION; I++))
+for ((I=0; I<$duration; I++))
     do
         plymouth --update=test${I}
         sleep 1
